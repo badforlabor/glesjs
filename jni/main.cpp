@@ -24,6 +24,7 @@
 unsigned int __page_size = getpagesize();
 
 #include <v8.h>
+#include <libplatform/libplatform.h>
 
 namespace v8::internal
 {
@@ -87,6 +88,7 @@ class MyJS
 	v8::Handle<v8::ObjectTemplate> global;
 	v8::Isolate *isolate;
 	MyJS();
+	~MyJS();
 	char *run_javascript(char *sourcestr);
 	void callFunction(const char *funcname, const int argc, Handle<Value> argv[]);
 };
@@ -652,12 +654,31 @@ void __getWindowHeight(const v8::FunctionCallbackInfo<v8::Value> &args)
 											   screenheight));
 }
 
+// https://chromium.googlesource.com/v8/v8/+/branch-heads/6.4/samples/hello-world.cc
+MyJS::~MyJS()
+{
+	isolate->Dispose();
+	v8::V8::Dispose();
+	//v8::V8::ShutdownPlatform();
+}
 MyJS::MyJS()
 {
 	int a = 5;
 	LOGI("%d", sizeof(a));
 	LOGI("js 3");
-	isolate = Isolate::New(Isolate::CreateParams());
+
+	// v8::V8::InitializeICUDefaultLocation(argv[0]);
+	// v8::V8::InitializeExternalStartupData(argv[0]);
+	std::unique_ptr<v8::Platform> platform = v8::platform::NewDefaultPlatform();
+	v8::V8::InitializePlatform(platform.get());
+	v8::V8::Initialize();
+	LOGI("js 3-1");
+
+	v8::Isolate::CreateParams create_params;
+	create_params.array_buffer_allocator =
+		v8::ArrayBuffer::Allocator::NewDefaultAllocator();
+	isolate = v8::Isolate::New(create_params);
+
 	LOGI("js 3-2");
 	Isolate::Scope isolate_scope(isolate);
 	LOGI("js 3-3");
@@ -795,6 +816,7 @@ MyJS::MyJS()
 }
 char *MyJS::run_javascript(char *sourcestr)
 {
+	LOGI("run js-1");
 	Isolate::Scope isolate_scope(isolate);
 	HandleScope handle_scope(isolate);
 	// we have to create a local handle from the persistent handle
@@ -803,11 +825,17 @@ char *MyJS::run_javascript(char *sourcestr)
 		v8::Local<v8::Context>::New(isolate, context);
 	Context::Scope context_scope(context_local);
 
+	LOGI("run js-2");
 	// Compile and run the script
 	TryCatch try_catch;
-	Handle<String> source = String::NewFromUtf8(isolate, sourcestr);
-	Handle<Script> script = Script::Compile(source);
+	auto source = String::NewFromUtf8(isolate, sourcestr, v8::NewStringType::kNormal).ToLocalChecked();
+	LOGI("run js-3-1");
+	auto c = Script::Compile(context_local, source);
+	LOGI("run js-3");
+	Handle<Script> script = c.ToLocalChecked();
+	LOGI("run js-3-2");
 	Handle<Value> result = script->Run();
+	LOGI("run js-4");
 	if (result.IsEmpty())
 	{
 		String::Utf8Value error(try_catch.Exception());
@@ -900,7 +928,8 @@ static void boot_javascript(int w, int h)
 	// execute init scripts on context
 	char *source1;
 	// html5 sets up the html5 API and loads the JS
-	readAsset("html5.js", &source1);
+	auto n = readAsset("html5.js", &source1);
+	LOGI("read html5.js done, length=%ld", n);
 	char *ret1 = js->run_javascript(source1);
 	LOGI("HTML5 bootloader returned: %s", ret1);
 

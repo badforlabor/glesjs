@@ -64,7 +64,7 @@ LOCAL_STATIC_LIBRARIES := libv8_base libv8_snapshot
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/include
 
 # hide symbols from included static libraries
-LOCAL_CPPFLAGS += -Wl,--exclude-libs,libv8_base
+LOCAL_CPPFLAGS += -std=c++11 -Wl,--exclude-libs,libv8_base
 LOCAL_CFLAGS += -Wl,--exclude-libs,libv8_base
 LOCAL_LDFLAGS += -Wl,--exclude-libs,libv8_base
 
