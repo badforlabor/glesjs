@@ -25,6 +25,17 @@ unsigned int __page_size = getpagesize();
 
 #include <v8.h>
 
+namespace v8::internal
+{
+void ReadNatives() {}
+
+void DisposeNatives() {}
+
+void SetNativesFromFile(v8::StartupData *s) {}
+
+void SetSnapshotFromFile(v8::StartupData *s) {}
+} // namespace v8::internal
+
 using namespace v8;
 
 // http://engineering.prezi.com/blog/2013/08/27/embedding-v8/

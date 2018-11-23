@@ -59,6 +59,9 @@
 #endif  // V8_OS_WIN
 
 /**
+ * Must stub in case external snapshot files are used.
+ */
+/**
  * The v8 JavaScript engine.
  */
 namespace v8 {

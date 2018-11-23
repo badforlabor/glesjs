@@ -32,9 +32,9 @@ include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE          := v8_nosnapshot
-LOCAL_MODULE_FILENAME := v8_nosnapshot_static
-LOCAL_SRC_FILES := lib/libv8_nosnapshot.a
+LOCAL_MODULE          := v8_snapshot
+LOCAL_MODULE_FILENAME := v8_snapshot_static
+LOCAL_SRC_FILES := lib/libv8_snapshot.a
 
 include $(PREBUILT_STATIC_LIBRARY)
 
@@ -59,7 +59,7 @@ LOCAL_MODULE    := glesjs
 LOCAL_SRC_FILES := main.cpp
 LOCAL_LDLIBS    := -llog -landroid -lEGL -lGLESv1_CM -lGLESv2
 # LOCAL_STATIC_LIBRARIES := libv8_base libv8_libbase libv8_nosnapshot libstlport
-LOCAL_STATIC_LIBRARIES := libv8_base libv8_nosnapshot
+LOCAL_STATIC_LIBRARIES := libv8_base libv8_snapshot
 #LOCAL_STATIC_LIBRARIES := android_native_app_glue libv8_base libv8_libbase libv8_nosnapshot libstlport
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/include
 
