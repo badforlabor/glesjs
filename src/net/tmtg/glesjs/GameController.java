@@ -67,6 +67,7 @@ public class GameController {
 
 	public static void init(Activity activity) {
 		System.out.println("GameController: Probing ...");
+		return
 		// init instances
 		for (int i=0; i<controllers.length; i++) {
 			controllers[i] = new GameController(i);

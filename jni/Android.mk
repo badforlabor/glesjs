@@ -11,13 +11,13 @@ LOCAL_PATH := $(call my-dir)
 # stlport is a StdC++ library, copied from:
 #<NDK_r9d_HOME>/sources/cxx-stl/stlport/libs/armeabi/libstlport_static.a
 
-include $(CLEAR_VARS)
+# include $(CLEAR_VARS)
 
-LOCAL_MODULE          := stlport
-LOCAL_MODULE_FILENAME := stlport_static
-LOCAL_SRC_FILES := lib/libstlport_static.a
+# LOCAL_MODULE          := stlport
+# LOCAL_MODULE_FILENAME := stlport_static
+# LOCAL_SRC_FILES := lib/libstlport_static.a
 
-include $(PREBUILT_STATIC_LIBRARY)
+# include $(PREBUILT_STATIC_LIBRARY)
 
 
 
@@ -39,13 +39,13 @@ LOCAL_SRC_FILES := lib/libv8_nosnapshot.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 
-include $(CLEAR_VARS)
+# include $(CLEAR_VARS)
 
-LOCAL_MODULE          := v8_libbase
-LOCAL_MODULE_FILENAME := v8_libbase_static
-LOCAL_SRC_FILES := lib/libv8_libbase.arm.a
+# LOCAL_MODULE          := v8_libbase
+# LOCAL_MODULE_FILENAME := v8_libbase_static
+# LOCAL_SRC_FILES := lib/libv8_libbase.arm.a
 
-include $(PREBUILT_STATIC_LIBRARY)
+# include $(PREBUILT_STATIC_LIBRARY)
 
 
 # Now, compile our code and link everything together as a shared library
@@ -58,7 +58,8 @@ include $(CLEAR_VARS)
 LOCAL_MODULE    := glesjs
 LOCAL_SRC_FILES := main.cpp
 LOCAL_LDLIBS    := -llog -landroid -lEGL -lGLESv1_CM -lGLESv2
-LOCAL_STATIC_LIBRARIES := libv8_base libv8_libbase libv8_nosnapshot libstlport
+# LOCAL_STATIC_LIBRARIES := libv8_base libv8_libbase libv8_nosnapshot libstlport
+LOCAL_STATIC_LIBRARIES := libv8_base libv8_nosnapshot
 #LOCAL_STATIC_LIBRARIES := android_native_app_glue libv8_base libv8_libbase libv8_nosnapshot libstlport
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/include
 

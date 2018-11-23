@@ -266,7 +266,7 @@ function genJSFunction($retval,$funcname,$funcparams) {
 				$FB.="\tv8::Handle<v8::ArrayBufferView> bufview_$bufname = Handle<ArrayBufferView>::Cast(args[$i]);\n";
 				
 				$FB.="\tv8::Handle<v8::ArrayBuffer> buf_$bufname = bufview_{$bufname}->Buffer();\n";
-				$FB.="\tv8::ArrayBuffer::Contents con_$bufname=buf_{$bufname}->GetData();\n";
+				$FB.="\tv8::ArrayBuffer::Contents con_$bufname=buf_{$bufname}->GetContents();\n";
 				$FB.="\tGLsizeiptr $lenname = con_{$bufname}.ByteLength();\n";
 				$FB.="\tvoid *$bufname = con_{$bufname}.Data();\n";
 			} else if ($ctype == "_IntPtr") {
